@@ -186,7 +186,7 @@ function configure_systemd() {
 	chmod +x /etc/systemd/system/$service_name.service
 
 	systemctl daemon-reload
-	[[ $1 ]] && systemctl start $service_name.service && sleep 1
+	[[ $1 ]] && systemctl start $service_name.service --no-block && sleep 1
 	systemctl enable $service_name.service &> /dev/null
 
 	if [[ $1 && ! "$(ps axo cmd:100 | egrep $service_name)" ]]; then
@@ -220,7 +220,7 @@ function wallet_cmd() {
 			;;
 		"start")
 			if [[ ! $(wallet_loaded $2) ]]; then
-				systemctl start $service &> /dev/null
+				systemctl start $service --no-block &> /dev/null
 				[[ $(wallet_loaded $2 30) ]] && echo "1"
 			fi
 			;;
@@ -839,7 +839,7 @@ function cmd_systemctlall() {
 	fi
 	for (( i=1; i<=$DUP_COUNT; i++ )); do
 		echo -e "${CYAN}systemctl $1 $COIN_NAME-$i.service${NC}"
-		systemctl $1 $COIN_NAME-$i.service
+		systemctl $1 $COIN_NAME-$i.service --no-block
 	done
 	trap 2
 	echo_json "{\"message\":\"success\"}"
