@@ -177,7 +177,7 @@ function configure_systemd() {
 	\nRestart=always\
 	\nPrivateTmp=true\
 	\nTimeoutStopSec=6000s\
-	\nTimeoutStartSec=1000s\
+	\nTimeoutStartSec=6000s\
 	\nStartLimitInterval=120s\
 	\nStartLimitBurst=5\
 	\n\
